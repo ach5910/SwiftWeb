@@ -1,13 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {  startAddSet } from '../actions/sets'
 
-export default class SetItem extends React.Component{
+class SetItem extends React.Component{
     constructor(props){
         super(props);
 
         this.state={
             reps: '',
             weight: '',
-            setCreated: '',
+            setCreated: false,
             exerciseNotDone: true 
         }
     }
@@ -36,6 +38,13 @@ export default class SetItem extends React.Component{
         this.setState(() => ({
             setCreated: true
         }))
+        const reps = this.state.reps;
+        const weight = this.state.weight;
+        const eid = this.props.eid;
+        const wid = this.props.wid;
+        const uid = this.props.uid;
+        console.log(this.props)
+        this.props.dispatch(startAddSet(uid, wid, eid, reps, weight))
     
     }
     finishExercise = () => {
@@ -43,6 +52,7 @@ export default class SetItem extends React.Component{
             exerciseNotDone: false,
             setCreated: true
         }))
+
         this.props.exerciseFinished()
     }
 
@@ -55,7 +65,7 @@ export default class SetItem extends React.Component{
                     <div>
                         <p>Reps {this.state.reps}</p>
                         <p>Weight {this.state.weight}</p>
-                        {this.state.exerciseNotDone ? <SetItem exerciseFinished={this.props.exerciseFinished}/> : <br/>}
+                        {this.state.exerciseNotDone ? <SetItem {...this.props} /> : <br/>}
                     </div>
                     
                     :
@@ -86,3 +96,13 @@ export default class SetItem extends React.Component{
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    const last = state.exercises.length;
+    return {
+        eid: state.exercises[0] === undefined ? 0 : state.exercises[last - 1]. eid,
+        wid: state.workouts.wid,
+        uid: state.auth.uid
+    }
+}
+export default connect(mapStateToProps)(SetItem);

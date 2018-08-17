@@ -3,7 +3,6 @@ import SetItem from './SetItem';
 
 const SetList = (props) => {
     const exerciseFinished = () => {
-        console.log('Set List')
         props.exerciseFinished();
     }
     return (

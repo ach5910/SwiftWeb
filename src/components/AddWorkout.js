@@ -1,8 +1,12 @@
 import React from 'react';
 import ExerciseList from './ExerciseList';
 import WorkOutForm from './WorkOutForm';
+import { connect } from 'react-redux';
+import { startAddWorkout } from '../actions/workouts';
+import { startAddRoutine } from '../actions/routines';
+import moment from 'moment';
 
-export default class AddWorkout extends React.Component{    
+class AddWorkout extends React.Component{    
     constructor(props){
         super(props);
         this.state = {
@@ -17,6 +21,12 @@ export default class AddWorkout extends React.Component{
             routineName,
             routineNameCreated: true
         }))
+        const time = moment().valueOf();   
+        this.props.dispatch(startAddRoutine(routineName)).then(() => {
+            this.props.dispatch(startAddWorkout(this.props.rid, time))
+        })
+
+        console.log(this.props);
 
     }
     render(){
@@ -26,13 +36,23 @@ export default class AddWorkout extends React.Component{
                 {this.state.routineNameCreated ?
                     <div>
                         <h1>{this.state.routineName}</h1>
-                        <ExerciseList/>                            
+                        <ExerciseList/>
+
                     </div>
                     :
                     <WorkOutForm callback={this.callback} name={"Routine"}/>
                 }
+                <button onClick={() => {this.props.history.push("/")}}>Finish Workout</button>
             </div>
         )
     }
 
 }
+const mapStateToProps = (state) => {
+    return  {
+        rid: state.routines.rid || ''
+    }
+    
+}
+
+export default connect(mapStateToProps)(AddWorkout);

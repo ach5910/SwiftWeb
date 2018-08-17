@@ -67,9 +67,6 @@ const sets = {
 //   console.log(snapshot.key)
 // })
 
-database.ref('exercises').push({ ...exercises}).then((snapshot) => {
-  console.log(snapshot.key);
-})
 
 // database.ref(`user/${user_id}/workouts/-LJyoCoeA8Ttsa98TQOr/sets`).push({...sets}).then(() => {
 //   console.log('Done');

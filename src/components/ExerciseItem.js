@@ -1,8 +1,10 @@
 import React from 'react';
 import SetList from './SetList';
 import WorkOutForm from './WorkOutForm';
+import { connect } from 'react-redux';
+import { startAddExercise } from '../actions/exercises';
 
-export default class  ExerciseItem extends React.Component {
+class  ExerciseItem extends React.Component {
     constructor(props){
         super(props)
 
@@ -18,6 +20,7 @@ export default class  ExerciseItem extends React.Component {
             exerciseName,
             exerciseNameCreated: true
         }))
+        this.props.dispatch(startAddExercise(exerciseName));
     }
 
     exerciseFinished = () => {
@@ -38,7 +41,7 @@ export default class  ExerciseItem extends React.Component {
                     <WorkOutForm callback={this.callback} name={'Exercise'} />
                     
                 }
-                {this.state.exerciseFinished && <ExerciseItem />}
+                {this.state.exerciseFinished && <ExerciseItem  {...this.props}/>}
                 
             </div>
         )
@@ -46,3 +49,4 @@ export default class  ExerciseItem extends React.Component {
 
 }
 
+export default connect(undefined)(ExerciseItem);
