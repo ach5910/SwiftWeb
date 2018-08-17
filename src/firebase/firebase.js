@@ -18,7 +18,7 @@ const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 export { firebase, googleAuthProvider, database as default };
 
-// const workoutUID = uuid(1
+// const workoutUID = uuid(
 // console.log(uuid())
 
 const user_id = "b7c3367c-e567-477b-aa16-36f1bb75cc58";
